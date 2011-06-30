@@ -16,8 +16,8 @@
 <% @certs.each do |cert| %>
   <tr class="<%= cycle('odd','even') %>">
     <td class="monospaced">
-		<%= link_to cert.id,cert_path(cert, :format => "pem") %>
-		(<%= link_to "txt",cert_path(cert, :format => "txt") %>)
+		<%= link_to "#{cert.id}.pem",cert_path(cert, :format => "pem") %>
+		(<%= link_to ".txt",cert_path(cert, :format => "txt") %>)
 	
 	</td>
     <td class="monospaced"><%= cert.serial%></td>
