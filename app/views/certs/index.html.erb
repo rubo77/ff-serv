@@ -20,7 +20,7 @@
 		(<%= link_to "txt",cert_path(cert, :format => "txt") %>)
 	
 	</td>
-    <td class="monospaced"><%= link_to cert.serial,cert_path(cert, :format => "pem") %></td>
+    <td class="monospaced"><%= cert.serial%></td>
    <td class="monospaced"><%= cert.wlan_mac %></td>
     <td class="monospaced"><%= cert.eth0_mac %></td>
 	<td class="monospaced"><%= cert.fingerprint.scan(/.{1,4}/).join(':') %></td>
