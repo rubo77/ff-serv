@@ -10,7 +10,14 @@ class CertsController < ApplicationController
       format.xml  { render :xml => @certs }
     end
   end
-
+  def show
+    @cert = Cert.find(params[:id])
+    respond_to do |format|
+      format.pem { render :text => @cert.cert_data }
+      format.txt { render :text => @cert.cert_data }
+    end
+  end
+  
 
   # DELETE /certs/1
   # DELETE /certs/1.xml

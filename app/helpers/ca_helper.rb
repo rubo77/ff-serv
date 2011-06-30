@@ -27,6 +27,11 @@ module CaHelper
   end
   
   ##Sign a CSR
+  def openssl_serial(cert)
+    cert = OpenSSL::X509::Certificate.new (cert) if cert.is_a?(String)
+    return cert.serial
+  end
+  
   def openssl_sign_csr(*args,&block)
     #Read CA Data
     csr = args[0][:csr]
@@ -34,9 +39,13 @@ module CaHelper
     name = OpenSSL::X509::Name.new [['CN', cn]]
     ca = OpenSSL::X509::Certificate.new easy_rsa_ca_cert
     ca_keypair = OpenSSL::PKey::RSA.new easy_rsa_ca_key
-    serial = File.read(ca_config['key_path']+"/serial").chomp.hex
-    open ca_config['key_path']+"/serial", "w" do |f|
+    File.open(ca_config['key_path']+"/serial",File::RDWR) do |f|
+      f.flock(File::LOCK_EX)
+      serial = f.read.chomp.hex
+      f.rewind
       f << "%04X" % (serial + 1)
+      f.flush
+      f.flock(FILE::LOCK_UN)
     end
     #Build new certificate
     cert = OpenSSL::X509::Certificate.new

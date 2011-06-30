@@ -18,6 +18,11 @@ class Cert < ActiveRecord::Base
     self.fingerprint = Digest::MD5.hexdigest(cert.to_der)
   end
   
+  def serial
+    serial = openssl_serial(self.cert_data).to_s(16)
+    return "0x#{serial}"
+  end
+  
   def self.ca_cert
     return Cert.new.easy_rsa_ca_cert
   end

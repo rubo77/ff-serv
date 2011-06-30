@@ -4,4 +4,6 @@
 # Mime::Type.register "text/richtext", :rtf
 # Mime::Type.register_alias "text/html", :iphone
 Mime::Type.register "application/x-pem-file", :pem
-Mime::Type.register_alias "application/x-pem-file", :key
+Mime::Type.register "application/x-pem-file", :key
+Mime::Type.register_alias "text/plain", :txt
+

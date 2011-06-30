@@ -5,6 +5,8 @@
 <h2>Erzeugte Zertfikate</h2>
 <table>
   <tr>
+	<th>id</th>
+	<th>Serial</th>
     <th>wlan0</th>
     <th>eth0</th>
 	<th>Fingerprint - MD5(.der) </th>
@@ -13,7 +15,13 @@
 
 <% @certs.each do |cert| %>
   <tr class="<%= cycle('odd','even') %>">
-    <td class="monospaced"><%= cert.wlan_mac %></td>
+    <td class="monospaced">
+		<%= link_to cert.id,cert_path(cert, :format => "pem") %>
+		(<%= link_to "txt",cert_path(cert, :format => "txt") %>)
+	
+	</td>
+    <td class="monospaced"><%= link_to cert.serial,cert_path(cert, :format => "pem") %></td>
+   <td class="monospaced"><%= cert.wlan_mac %></td>
     <td class="monospaced"><%= cert.eth0_mac %></td>
 	<td class="monospaced"><%= cert.fingerprint.scan(/.{1,4}/).join(':') %></td>
   	<td><%= cert.created_at%></td>
