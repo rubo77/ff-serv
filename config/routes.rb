@@ -1,13 +1,22 @@
 FfServ::Application.routes.draw do
+  resources :authentications
+  match '/auth/:provider/callback' => 'authentications#create'
+  match '/logout', :to => "authentications#destroy"
+  match '/login', :to => "authentications#new"
+  
   resources :certs do
+    member do
+      post 'revoke'
+    end
     collection do
       get 'ap_cert'
       get 'ca_cert'
       get 'dh1024'
-      post 'sign_csr'
+      get 'crl'
     end
   end
-  
+  resources :users
+    
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

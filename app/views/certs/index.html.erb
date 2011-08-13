@@ -2,7 +2,7 @@
   <h1>OpenVPN-Zertifikate</h1>
 <% end %>
 
-<h2>Erzeugte Zertfikate</h2>
+<h2>Erzeugte Zertifikate</h2>
 <table>
   <tr>
 	<th>id</th>
@@ -11,20 +11,22 @@
     <th>eth0</th>
 	<th>Fingerprint - MD5(.der) </th>
 	<th>Erzeugt am</th>
-  </tr>
+  	<th>Revoke</th>
+</tr>
 
 <% @certs.each do |cert| %>
-  <tr class="<%= cycle('odd','even') %>">
+  <tr class="<%= cycle('odd','even') %>   <%='revoked' if cert.revoked %> ">
     <td class="monospaced">
 		<%= link_to "#{cert.id}.pem",cert_path(cert, :format => "pem") %>
 		(<%= link_to ".txt",cert_path(cert, :format => "txt") %>)
 	
 	</td>
     <td class="monospaced"><%= cert.serial%></td>
-   <td class="monospaced"><%= cert.wlan_mac %></td>
+	<td class="monospaced"><%= cert.wlan_mac %></td>
     <td class="monospaced"><%= cert.eth0_mac %></td>
 	<td class="monospaced"><%= cert.fingerprint.scan(/.{1,4}/).join(':') %></td>
   	<td><%= cert.created_at%></td>
+	<td class="centered"><%= link_to  image_tag("bin.png"),revoke_cert_path(cert), {:confirm => "Revoking #{cert.id}",:method => :post} unless cert.revoked %> </td>
   </tr>
 <% end %>
 </table>

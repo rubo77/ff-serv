@@ -24,6 +24,16 @@ class Cert < ActiveRecord::Base
   end
   
   def self.ca_cert
-    return Cert.new.easy_rsa_ca_cert
+    return CaHelper.easy_rsa_ca_cert
+  end
+  
+  def self.ca_crl
+    certs = Cert.where(:revoked => true).collect {|c| c.cert_data}
+    CaHelper.openssl_gencrl(certs)
+  end
+  
+  def revoke
+    self.revoked = true
+    self.revoked_at = DateTime.now
   end
 end

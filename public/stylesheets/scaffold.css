@@ -12,10 +12,6 @@ pre {
   font-size: 11px;
 }
 
-a { color: #000; }
-a:visited { color: #666; }
-a:hover { color: #fff; background-color:#000; }
-
 div.field, div.actions {
   margin-bottom: 10px;
 }
@@ -55,6 +51,13 @@ div.field, div.actions {
   list-style: square;
 }
 
+.label_td{
+	font-weight: bold;
+	color: #FFF;
+	background-color: #E0256C;
+	
+}
+
 .freifunk-yellow-bg{
 	background-color: #FFCB05;
 }
@@ -80,8 +83,11 @@ div.field, div.actions {
 }
 #head{
 	float: left;
-	padding-top: 30px;
 	padding-left: 10px;
+	padding-top: 30px;
+}
+#banner{
+	height: 30px;
 }
 #body{
 	margin: 0px auto;
@@ -103,4 +109,52 @@ td.monospaced {
 	font-family: monospace,"Courier New";
 	padding-left: 10px;
 	padding-right: 10px;
+}
+.centered{
+	text-align: center;	
+}
+.revoked{
+	color: #666;
+	text-decoration: line-through;
+}
+#user-info{
+	position: absolute;
+	right: 0px;
+	margin-right: 0px;
+	padding-right: 200px;
+	padding-top: 2px;
+	float: left;
+}
+a { 
+	color: #00F;
+	text-decoration: none;
+}
+a:hover{
+	text-decoration: underline;
+}
+.center{
+	text-align: center;
+}
+#main-nav{
+	position: absolute;
+	top: 96px;
+	color: #FFF;
+	font-size: 14pt;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+#main-nav a{
+	color: #FFF;
+	font-size: 14pt;
+	font-weight: bold;
+	
+}
+.edittable{
+	border: 1px solid #000;
+	
+}
+
+.edittable td{
+	padding: 5px;
 }

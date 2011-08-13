@@ -17,7 +17,12 @@ class CertsController < ApplicationController
       format.txt { render :text => @cert.cert_data }
     end
   end
-  
+  def revoke
+    cert = Cert.find(params[:id])
+    cert.revoke
+    cert.save
+    redirect_to certs_path 
+  end
 
   # DELETE /certs/1
   # DELETE /certs/1.xml
@@ -50,6 +55,8 @@ class CertsController < ApplicationController
   end
   
   
+  
+  
   ## GET /certs/ca_cert.pem
   def ca_cert
     render :text => Cert.ca_cert
@@ -60,7 +67,8 @@ class CertsController < ApplicationController
     render :text => OpenSSL::PKey::DH.generate(1024).to_pem
   end
   
-  def sign_csr
+  def crl
+    render :text => Cert.ca_crl.to_pem
   end
   
   #Authenticate for Cert-Request:

@@ -10,7 +10,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110613151952) do
+ActiveRecord::Schema.define(:version => 20110812210807) do
+
+  create_table "authentications", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "provider"
+    t.string   "uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "certs", :force => true do |t|
     t.string   "wlan_mac"
@@ -19,6 +27,30 @@ ActiveRecord::Schema.define(:version => 20110613151952) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.binary   "cert_data"
+    t.boolean  "revoked"
+    t.datetime "revoked_at"
+  end
+
+  create_table "rights", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "uid"
+    t.string   "provider"
+    t.string   "name"
+    t.string   "email"
+    t.integer  "role_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

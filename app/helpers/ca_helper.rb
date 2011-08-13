@@ -1,7 +1,7 @@
 module CaHelper
 
   ##Easy-RSA-Stuff
-  def easy_rsa_ca_cert(*args,&block)
+  def self.easy_rsa_ca_cert(*args,&block)
     @@cert ||= File.read(ca_config['key_path']+"/ca.crt")
   end
   
@@ -26,19 +26,81 @@ module CaHelper
     req
   end
   
-  ##Sign a CSR
+  ##Extract serial from certificate 
   def openssl_serial(cert)
-    cert = OpenSSL::X509::Certificate.new (cert) if cert.is_a?(String)
-    return cert.serial
+    cert = OpenSSL::X509::Certificate.new(cert) if cert.is_a?(String)
+    cert.serial
   end
   
-  def openssl_sign_csr(*args,&block)
+  ##Generate a crl using given certs.
+  def self.openssl_gencrl(certs)
+    #How to generate a crl? Docs??? However, there is a test-helper in ruby (core)
+    #It's called: crl = issue_crl([], 1, now, now+1600, [],cert, @rsa2048, OpenSSL::Digest::SHA1.new)
+    
+    #cert = issue_cert(@ca, @rsa2048, 1, now, now+3600, [],nil, nil, OpenSSL::Digest::SHA1.new)
+    #@rsa2048 = OpenSSL::TestUtils::TEST_KEY_RSA2048
+    
+    
+    #From ruby-1.9.2-p290/test/openssl/utils.rb
+    #def issue_crl(revoke_info, serial, lastup, nextup, extensions,
+    #                issuer, issuer_key, digest)
+    #    crl = OpenSSL::X509::CRL.new
+    #    crl.issuer = issuer.subject
+    #    crl.version = 1
+    #    crl.last_update = lastup
+    #    crl.next_update = nextup
+    #    revoke_info.each{|rserial, time, reason_code|
+    #      revoked = OpenSSL::X509::Revoked.new
+    #      revoked.serial = rserial
+    #      revoked.time = time
+    #      enum = OpenSSL::ASN1::Enumerated(reason_code)
+    #      ext = OpenSSL::X509::Extension.new("CRLReason", enum)
+    #      revoked.add_extension(ext)
+    #      crl.add_revoked(revoked)
+    #    }
+    #    ef = OpenSSL::X509::ExtensionFactory.new
+    #    ef.issuer_certificate = issuer
+    #    ef.crl = crl
+    #    crlnum = OpenSSL::ASN1::Integer(serial)
+    #    crl.add_extension(OpenSSL::X509::Extension.new("crlNumber", crlnum))
+    #    extensions.each{|oid, value, critical|
+    #      crl.add_extension(ef.create_extension(oid, value, critical))
+    #    }
+    #    crl.sign(issuer_key, digest)
+    #    crl
+    #  end
+
+    crl = OpenSSL::X509::CRL.new #Generate empty crl
+    crl.issuer = ca_cert.subject
+    crl.version = 1
+    crl.last_update = Time.now
+    crl.next_update = Time.now + 60 #Next Update in a minute
+    certs.each do |cert_data|
+      cert =  OpenSSL::X509::Certificate.new(cert_data)
+      revoked = OpenSSL::X509::Revoked.new
+      puts "cert.serial is #{cert.serial} \n"
+      revoked.serial = cert.serial
+      revoked.time = Time.now
+      enum = OpenSSL::ASN1::Enumerated(7) #privilegeWithdrawn - see: http://www.ipa.go.jp/security/rfc/RFC3280-04EN.html#412051
+      ext = OpenSSL::X509::Extension.new("CRLReason", enum) 
+      revoked.add_extension(ext)
+      crl.add_revoked(revoked)
+    end
+    ef = OpenSSL::X509::ExtensionFactory.new
+    ef.issuer_certificate = ca_cert
+    ef.crl = crl
+    crlnum = OpenSSL::ASN1::Integer(Time.now.to_i)
+    crl.add_extension(OpenSSL::X509::Extension.new("crlNumber", crlnum))
+    crl.sign(ca_key, OpenSSL::Digest::SHA1.new)
+    crl
+  end
+  
+  ##Sign a CSR
+  def openssl_sign_csr(csr,cn)
     #Read CA Data
-    csr = args[0][:csr]
-    cn = args[0][:cn]
     name = OpenSSL::X509::Name.new [['CN', cn]]
-    ca = OpenSSL::X509::Certificate.new easy_rsa_ca_cert
-    ca_keypair = OpenSSL::PKey::RSA.new easy_rsa_ca_key
+    ca = ca_cert
+    ca_keypair = ca_key
     File.open(ca_config['key_path']+"/serial",File::RDWR) do |f|
       f.flock(File::LOCK_EX)
       serial = f.read.chomp.hex
@@ -81,10 +143,19 @@ module CaHelper
   end
   
   private
-  def ca_config
+  def self.ca_config
     @@ca_config ||= YAML::load_file("#{RAILS_ROOT}/config/ssl.yml")[RAILS_ENV]
   end
-  def easy_rsa_ca_key(*args,&block)
+  def self.easy_rsa_ca_key(*args,&block)
     @@key ||= File.read(ca_config['key_path']+"/ca.key")
   end
+  
+  def self.ca_cert
+    @@ca_cert ||= OpenSSL::X509::Certificate.new easy_rsa_ca_cert
+  end
+  
+  def self.ca_key
+    @@ca_key ||= OpenSSL::PKey::RSA.new easy_rsa_ca_key
+  end
+    
 end

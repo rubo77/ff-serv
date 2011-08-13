@@ -9,8 +9,21 @@
 <body class="freifunk-yellow-bg">
 <div id="header">
 	<div id="head"><%= yield :head %></div>
+	<div id="user-info">
+		<%= link_to "Anmelden", '/login' if session[:user_id].blank?%>
+		
+		<% if session[:user_id] %>
+		Angemeldet als: <%= Authorization.current_user.name %> (<%= link_to "Abmelden", '/logout'%>)
+		<% end %>
+	</div>
 	<div id="logo" style="background-image: url(<%= image_path('banner.png') %>)">
 		<%= image_tag("banner_logo.png")%>
+	</div>
+	<div id="main-nav">
+		<%= link_to "Zertifikate", certs_path %> | 
+		<% permitted_to? :index, :users do %>
+			<%= link_to "Benutzer", users_path %>
+		<% end %>
 	</div>
 </div>
 <div id="body" >
