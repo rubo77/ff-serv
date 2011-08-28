@@ -10,11 +10,14 @@
 <div id="header">
 	<div id="head"><%= yield :head %></div>
 	<div id="user-info">
-		<%= link_to "Anmelden", '/login' if session[:user_id].blank?%>
-		
-		<% if session[:user_id] %>
-		Angemeldet als: <%= Authorization.current_user.name %> (<%= link_to "Abmelden", '/logout'%>)
-		<% end %>
+	      <% if current_user %>  
+	        Angemeldet als: <%= current_user.email %> |   
+	        <%= link_to "Abmelden", destroy_user_session_path, :method => 'delete' %> |
+	 		<%= link_to "Profil", edit_user_registration_path%>
+	      <% else %>  
+	        <%= link_to "Registrieren", new_user_registration_path %> |
+	        <%= link_to "Anmelden", new_user_session_path %>  
+	      <% end %>  
 	</div>
 	<div id="logo" style="background-image: url(<%= image_path('banner.png') %>)">
 		<%= image_tag("banner_logo.png")%>

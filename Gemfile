@@ -34,3 +34,4 @@ gem "declarative_authorization", "~> 0.5.3"
 
 gem "nifty-generators", :group => :development
 #gem "mocha", :group => :test
+gem "devise"
