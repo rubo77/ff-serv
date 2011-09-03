@@ -13,8 +13,6 @@ class Cert < ActiveRecord::Base
   def create_x509_and_key
     cert_cn = "#{node.wlan_mac} - #{node.bat0_mac}"
     self.cert_key = openssl_generate_key
-    logger.debug "\nCert is: #{self.inspect}\n"
-    logger.debug "\nNode is: #{self.node.inspect}\n"
     csr = openssl_create_csr(:key => self.cert_key)
     cert = openssl_sign_csr(csr,cert_cn)
     self.cert_data = cert.to_pem

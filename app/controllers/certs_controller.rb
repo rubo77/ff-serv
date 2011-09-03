@@ -45,17 +45,19 @@ class CertsController < ApplicationController
       #.key has to be called first ... it generates a certificate
       #This is done for security reasons: Keys are not stored ... thus they have to be retrieved first.
       node = Node.find_or_create_by_wlan_mac_and_bat0_mac(session[:wlan_mac],session[:bat0_mac])
-      cert = Cert.create_by_node(node)
-      node.certs << cert
-      node.save
-      format.key { render :text => cert.cert_key.to_pem}
+      format.key do 
+        cert = Cert.create_by_node(node)
+        node.certs << cert
+        node.save
+        cert2 = OpenSSL::X509::Certificate.new(cert.cert_data) if node.certs.last
+        logger.debug "Modulus is: #{Digest::MD5.hexdigest (cert2.public_key.params['n'].to_s)}\n"
+        render :text => cert.cert_key.to_pem
+      end
       #.pem can be called later on ... it sends a certificate
       format.pem do
-        if node.certs.size > 0
-          render :text => node.certs.last.cert_data
-        else
-          render :status => 404, :text => "Please download ap_cert.key first - it'll create your certificate"
-        end
+        cert2 = OpenSSL::X509::Certificate.new(node.certs.last.cert_data) if node.certs.last
+        logger.debug "Modulus is: #{Digest::MD5.hexdigest (cert2.public_key.params['n'].to_s)}\n"
+        render :text => node.certs.last.cert_data
       end
     end
     
