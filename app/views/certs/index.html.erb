@@ -1,5 +1,5 @@
 <% content_for :head do %>
-  <h1>OpenVPN-Zertifikate</h1>
+  <h1>OpenVPN/tinc-Zertifikate</h1>
 <% end %>
 
 <h2>Erzeugte Zertifikate</h2>
@@ -7,8 +7,8 @@
   <tr>
 	<th>id</th>
 	<th>Serial</th>
-    <th>wlan0</th>
-    <th>eth0</th>
+    <th>wlan-mac</th>
+    <th>bat0-mac</th>
 	<th>Fingerprint - MD5(.der) </th>
 	<th>Erzeugt am</th>
   	<th>Revoke</th>
@@ -21,12 +21,12 @@
 		(<%= link_to ".txt",cert_path(cert, :format => "txt") %>)
 	
 	</td>
-    <td class="monospaced"><%= cert.serial%></td>
-	<td class="monospaced"><%= cert.wlan_mac %></td>
-    <td class="monospaced"><%= cert.eth0_mac %></td>
-	<td class="monospaced"><%= cert.fingerprint.scan(/.{1,4}/).join(':') %></td>
+    <td class="monospaced"><%= "#{cert.serial}" %></td>
+	<td class="monospaced"><%= cert.node.wlan_mac %></td>
+    <td class="monospaced"><%= cert.node.bat0_mac %></td>
+	<td class="monospaced"><%= "#{cert.fingerprint}".scan(/.{1,4}/).join(':') %></td>
   	<td><%= cert.created_at%></td>
-	<td class="centered"><%= link_to  image_tag("bin.png"),revoke_cert_path(cert), {:confirm => "Revoking #{cert.id}",:method => :post} unless cert.revoked %> </td>
+	<td class="centered"><%= link_to  image_tag("bin.png"),revoke_cert_path(cert), {:confirm => "Rufe Zertifikat #{cert.id} zurück.",:method => :post} unless cert.revoked %> </td>
   </tr>
 <% end %>
 </table>

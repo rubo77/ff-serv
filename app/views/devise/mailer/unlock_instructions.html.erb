@@ -1,0 +1,7 @@
+<p>Hallo <%= @resource.email %>!</p>
+
+<p>Dein Zugang wurde gesperrt, da zu viele Anmeldeversuche fehlgeschlagen sind.</p>
+
+<p>Um Deinen Zugang zu entsperren, rufe bitte die folgende Adresse auf</p>
+
+<p><%= link_to 'Zugang entsperren', unlock_url(@resource, :unlock_token => @resource.unlock_token) %></p>

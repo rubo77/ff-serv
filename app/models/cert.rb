@@ -1,25 +1,28 @@
 class Cert < ActiveRecord::Base
+  belongs_to :node
   attr_accessor :cert_key
   include CaHelper
   
-  def self.create_by_wlan_and_lan(wlan_mac,eth0_mac)
-    cert = Cert.new(:wlan_mac => wlan_mac, :eth0_mac => eth0_mac)
+  def self.create_by_node(node)
+    cert = Cert.new(:node => node)
     cert.create_x509_and_key
     cert.save!
     cert
   end
   
   def create_x509_and_key
-    cert_cn = "#{self.wlan_mac} - #{self.eth0_mac}"
+    cert_cn = "#{node.wlan_mac} - #{node.bat0_mac}"
     self.cert_key = openssl_generate_key
+    logger.debug "\nCert is: #{self.inspect}\n"
+    logger.debug "\nNode is: #{self.node.inspect}\n"
     csr = openssl_create_csr(:key => self.cert_key)
-    cert = openssl_sign_csr(:csr => csr, :cn => cert_cn)
+    cert = openssl_sign_csr(csr,cert_cn)
     self.cert_data = cert.to_pem
-    self.fingerprint = Digest::MD5.hexdigest(cert.to_der)
+    self.fingerprint = Digest::MD5.hexdigest(cert.to_der) 
   end
   
   def serial
-    serial = openssl_serial(self.cert_data).to_s(16)
+    serial = openssl_serial(self.cert_data).to_s(16) if self.cert_data
     return "0x#{serial}"
   end
   

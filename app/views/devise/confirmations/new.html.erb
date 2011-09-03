@@ -1,0 +1,16 @@
+<% content_for :head do %>
+  <h1>Bestätigungs-E-Mail</h1>
+<% end %>
+
+<h2>E-Mail erneut senden</h2>
+
+<%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <p><%= f.label :email, "E-Mail Adresse" %><br />
+  <%= f.email_field :email %></p>
+
+  <p><%= f.submit "Senden" %></p>
+<% end %>
+
+<%= render :partial => "devise/shared/links" %>

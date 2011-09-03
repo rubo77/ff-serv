@@ -1,0 +1,26 @@
+<% content_for :head do %>
+  <h1>Benutzer verwalten</h1>
+<% end %>
+
+<h2>Registrierte Benutzer</h2>
+<table cellspacing="0" cellpadding="3">
+  <tr>
+	<th>Id</th>
+	<th>E-Mail</th>
+    <th>Rolle</th>
+	<th>Erzeugt am</th>
+  	<th colspan="2">&nbsp;</th>
+</tr>
+
+<% @users.each do |user| %>
+  <tr class="<%= cycle('odd','even') %>">
+    <td><%= user.id%></td>
+	<td><%= user.email %></td>
+    <td><%= user.role %></td>
+  	<td><%= user.created_at%></td>
+	<td class="centered"><%= link_to  image_tag("pencil.png"),edit_user_path(user) %> 
+	<%= link_to  image_tag("bin.png"),user_path(user),{:confirm => "Benutzer #{user.email} wird gelöscht",:method => :delete}%> </td>
+  </tr>
+<% end %>
+</table>
+

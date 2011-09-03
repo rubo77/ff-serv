@@ -11,7 +11,7 @@ module CaHelper
   
   ## Generate a new OpenSSL keypair
   def openssl_generate_key(*args,&block)
-    keypair = OpenSSL::PKey::RSA.new ca_config['key_size']
+    keypair = OpenSSL::PKey::RSA.new CaHelper.ca_config['key_size']
   end
   
   ## Generate a OpenSSL CSR
@@ -28,7 +28,7 @@ module CaHelper
   
   ##Extract serial from certificate 
   def openssl_serial(cert)
-    cert = OpenSSL::X509::Certificate.new(cert) if cert.is_a?(String)
+    cert = OpenSSL::X509::Certificate.new(cert)
     cert.serial
   end
   
@@ -99,15 +99,16 @@ module CaHelper
   def openssl_sign_csr(csr,cn)
     #Read CA Data
     name = OpenSSL::X509::Name.new [['CN', cn]]
-    ca = ca_cert
-    ca_keypair = ca_key
-    File.open(ca_config['key_path']+"/serial",File::RDWR) do |f|
+    ca = CaHelper.ca_cert
+    ca_keypair = CaHelper.ca_key
+    generated_serial = ""
+    File.open(CaHelper.ca_config['key_path']+"/serial",File::RDWR) do |f|
       f.flock(File::LOCK_EX)
-      serial = f.read.chomp.hex
+      generated_serial = f.read.chomp.hex
       f.rewind
-      f << "%04X" % (serial + 1)
+      f << "%04X" % (generated_serial + 1)
       f.flush
-      f.flock(FILE::LOCK_UN)
+      f.flock(File::LOCK_UN)
     end
     #Build new certificate
     cert = OpenSSL::X509::Certificate.new
@@ -117,7 +118,7 @@ module CaHelper
     cert.not_before = from
     cert.not_after = from + 365 * 10 * 24 * 60 * 60 #10 years
     cert.public_key = csr.public_key
-    cert.serial = serial
+    cert.serial = generated_serial
     cert.version = 2 # X509v3
     #Type is client
     #Cert attributes

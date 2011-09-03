@@ -1,5 +1,8 @@
 class CertsController < ApplicationController
   before_filter :authenticate_mac, :only => :ap_cert
+  
+  #TODO: Revoke nur fuer admins.
+  
   # GET /certs
   # GET /certs.xml
   def index
@@ -41,11 +44,15 @@ class CertsController < ApplicationController
     respond_to do |format|
       #.key has to be called first ... it generates a certificate
       #This is done for security reasons: Keys are not stored ... thus they have to be retrieved first.
-      format.key { render :text => Cert.create_by_wlan_and_lan(session[:wlan_mac],session[:eth0_mac]).cert_key.to_pem}
-      #.pem can be called later on ... it sends a certificat
+      node = Node.find_or_create_by_wlan_mac_and_bat0_mac(session[:wlan_mac],session[:bat0_mac])
+      cert = Cert.create_by_node(node)
+      node.certs << cert
+      node.save
+      format.key { render :text => cert.cert_key.to_pem}
+      #.pem can be called later on ... it sends a certificate
       format.pem do
-        if cert = Cert.last(:conditions => ['wlan_mac = ? AND eth0_mac = ?',session[:wlan_mac],session[:eth0_mac]])
-          render :text => cert.cert_data
+        if node.certs.size > 0
+          render :text => node.certs.last.cert_data
         else
           render :status => 404, :text => "Please download ap_cert.key first - it'll create your certificate"
         end
@@ -53,9 +60,6 @@ class CertsController < ApplicationController
     end
     
   end
-  
-  
-  
   
   ## GET /certs/ca_cert.pem
   def ca_cert
@@ -69,20 +73,6 @@ class CertsController < ApplicationController
   
   def crl
     render :text => Cert.ca_crl.to_pem
-  end
-  
-  #Authenticate for Cert-Request:
-  #User: Mac of wlan module
-  #Password: Mac of first wired nic (eg eth0)
-  private
-  def authenticate_mac
-    authenticate_or_request_with_http_basic do |username, password|
-        logger.error "Credentials #{username} #{password}"
-        #Regular expression matches for HW-addresses stolen and modified from http://www.perlmonks.org/?node_id=83405
-        session[:wlan_mac] = username
-        session[:eth0_mac] = password
-        username.match(/^([0-9a-f]{2}(-|$)){6}$/i) && password.match(/^([0-9a-f]{2}(-|$)){6}$/i) && username != password
-      end
   end
     
 end

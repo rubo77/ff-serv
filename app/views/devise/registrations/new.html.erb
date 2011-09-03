@@ -1,0 +1,23 @@
+<% content_for :head do %>
+  <h1>Registrieren</h1>
+<% end %>
+
+<h2>Hallo Gast,</h2>
+hier kannst Du Dich als Freifunker registrieren! - Gib einfach Deine E-Mail Adresse und ein Kennwort ein.
+
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+  <p><%= f.label :email, "E-Mail Adresse:" %><br />
+  <%= f.email_field :email %></p>
+
+  <p><%= f.label :password, "Kennwort:" %><br />
+  <%= f.password_field :password %></p>
+
+  <p><%= f.label :password_confirmation,"Kennwort (bestätigen)" %><br />
+  <%= f.password_field :password_confirmation %></p>
+
+  <p><%= f.submit "Registrieren" %></p>
+<% end %>
+
+<%= render :partial => "devise/shared/links" %>

@@ -1,0 +1,34 @@
+<% content_for :head do %>
+  <h1>Benutzer bearbeiten</h1>
+<% end %>
+
+<h2>Benutzer <%= @user.email %> bearbeiten</h2>
+
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2>Fehler beim speichern des Benutzers</h2>
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p><%= f.label :email,"E-Mail Adresse:" %><br />
+  <%= f.email_field :email %></p>
+
+  <p><%= f.label :role_id,"Rolle" %><br />
+  <%= f.select :role_id, Role.all.map{|r| [r.name.humanize,r.id]} %></p>
+
+
+
+
+  <div class="actions">
+    <%= f.submit "Speichern"%>
+  </div>
+<% end %>
+
+
+<%= link_to 'Zurück', users_path %>

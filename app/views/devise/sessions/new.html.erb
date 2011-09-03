@@ -1,0 +1,23 @@
+<% content_for :head do %>
+  <h1>Anmeldung</h1>
+<% end %>
+
+<h2>Hallo Freifunker,</h2>
+
+bitte geb' Deine E-Mail Adresse und Dein Kennwort ein, um Dich am System anzumelden!
+
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+  <p><%= f.label :email, "E-Mail Adresse:" %><br />
+  <%= f.email_field :email %></p>
+
+  <p><%= f.label :password, "Kennwort:" %><br />
+  <%= f.password_field :password %></p>
+
+  <% if devise_mapping.rememberable? -%>
+    <p><%= f.check_box :remember_me %> <%= f.label :remember_me,"Daten in Cookie speichern" %></p>
+  <% end -%>
+
+  <p><%= f.submit "Anmelden" %></p>
+<% end %>
+
+<%= render :partial => "devise/shared/links" %>

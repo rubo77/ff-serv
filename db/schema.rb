@@ -10,19 +10,44 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110828122117) do
+ActiveRecord::Schema.define(:version => 20110828162925) do
 
   create_table "certs", :force => true do |t|
-    t.string   "wlan_mac"
-    t.string   "eth0_mac"
     t.string   "fingerprint"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.binary   "cert_data"
+    t.integer  "node_id"
+    t.boolean  "revoked"
+  end
+
+  create_table "nodes", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "position"
+    t.text     "bat0_mac"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "wlan_mac"
+  end
+
+  create_table "prefix_delegations", :force => true do |t|
+    t.integer  "node_id"
+    t.string   "v4"
+    t.string   "v6"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "roles", :force => true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "subnet_delegations", :force => true do |t|
+    t.integer  "node_id"
+    t.string   "v4_prefix"
+    t.string   "v6_prefix"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

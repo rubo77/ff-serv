@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  node_id: 1
+  v4_prefix: MyString
+  v6_prefix: MyString
+
+two:
+  node_id: 1
+  v4_prefix: MyString
+  v6_prefix: MyString
