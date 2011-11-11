@@ -22,8 +22,8 @@
 	
 	</td>
     <td class="monospaced"><%= "#{cert.serial}" %></td>
-	<td class="monospaced"><%= cert.node.wlan_mac %></td>
-    <td class="monospaced"><%= cert.node.bat0_mac %></td>
+	<td class="monospaced"><%= cert.node.wlan_mac if cert.node%></td>
+    <td class="monospaced"><%= cert.node.bat0_mac if cert.node %></td>
 	<td class="monospaced"><%= "#{cert.fingerprint}".scan(/.{1,4}/).join(':') %></td>
   	<td><%= cert.created_at%></td>
 	<td class="centered"><%= link_to  image_tag("bin.png"),revoke_cert_path(cert), {:confirm => "Rufe Zertifikat #{cert.id} zurück.",:method => :post} unless cert.revoked %> </td>
