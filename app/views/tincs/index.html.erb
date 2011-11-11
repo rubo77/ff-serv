@@ -1,0 +1,37 @@
+<% content_for :head do %>
+  <h1>Tinc-Management</h1>
+<% end %>
+
+<h2>Eingereichte Keys</h2>
+<table>
+  <tr>
+    <th>Node</th>
+	<th>SHA-1</th>
+	<th>Eingereicht am</th>
+    <th>Akzeptiert am</th>
+    <th>Akzeptiert durch</th>
+<% permitted_to?  :approve, :tincs do%>
+	<th>&nbsp;</th>
+<% end %>	
+  </tr>
+
+<% @tincs.each do |tinc| %>
+<tr class="<%= cycle('odd','even') %>">
+    <td class="monospaced"><%= tinc.node.wlan_mac %></td>
+    <td class="monospaced"><%= tinc.checksum %></td>
+    <td><%= tinc.created_at %></td>
+	<td><%= tinc.approved_at %></td>
+    <td><%= tinc.approved_by %></td>
+	<% permitted_to?  :approve, :tincs do%>
+    	<td>
+<% if tinc.approved_by.nil? %>
+	<%= link_to "Akzeptieren\n",approve_tinc_path(tinc),:method => :post,:confirm => "Nehme Public-Key auf: \nNode: 	#{tinc.node.wlan_mac}\nKey: #{tinc.checksum}"%></td>
+<% else %>
+Akzeptieren
+<% end %>
+	<% end %>	
+	</tr>
+<% end %>
+</table>
+
+<br />

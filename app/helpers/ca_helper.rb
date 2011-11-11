@@ -143,6 +143,7 @@ module CaHelper
     cert
   end
   
+  
   private
   def self.ca_config
     @@ca_config ||= YAML::load_file("#{RAILS_ROOT}/config/ssl.yml")[RAILS_ENV]

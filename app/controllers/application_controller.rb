@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
         #Regular expression matches for HW-addresses stolen and modified from http://www.perlmonks.org/?node_id=83405
         session[:wlan_mac] = username
         session[:bat0_mac] = password
-        username.match(/^([0-9a-f]{2}(-|$)){6}$/i) && password.match(/^([0-9a-f]{2}(-|$)){6}$/i)
+        username.match(/^[0-9a-f]{12}$/i) && password.match(/^[0-9a-f]{12}$/i)
       end
   end  
 end

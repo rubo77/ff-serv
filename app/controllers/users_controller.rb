@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  #TODO: decl_auth!
+  filter_access_to :all  
   
   # GET /users
   # GET /users.xml

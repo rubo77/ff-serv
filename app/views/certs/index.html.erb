@@ -1,5 +1,5 @@
 <% content_for :head do %>
-  <h1>OpenVPN/tinc-Zertifikate</h1>
+  <h1>OpenVPN-Zertifikate</h1>
 <% end %>
 
 <h2>Erzeugte Zertifikate</h2>
@@ -27,6 +27,7 @@
 	<td class="monospaced"><%= "#{cert.fingerprint}".scan(/.{1,4}/).join(':') %></td>
   	<td><%= cert.created_at%></td>
 	<td class="centered"><%= link_to  image_tag("bin.png"),revoke_cert_path(cert), {:confirm => "Rufe Zertifikat #{cert.id} zurück.",:method => :post} unless cert.revoked %> </td>
+
   </tr>
 <% end %>
 </table>

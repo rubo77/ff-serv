@@ -1,4 +1,10 @@
 FfServ::Application.routes.draw do
+  resources :tincs do
+    member do
+      post 'approve'
+    end
+  end
+
   resources :nodes
 
   devise_for :users

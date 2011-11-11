@@ -23,7 +23,9 @@
 		<%= image_tag("banner_logo.png")%>
 	</div>
 	<div id="main-nav">
+		<% flash[:messages]%>
 		<%= link_to "Zertifikate", certs_path %> | 
+		<%= link_to "Tinc-Management", tincs_path %> | 
 		<% permitted_to? :index, :users do %>
 			<%= link_to "Benutzer", users_path %>
 		<% end %>

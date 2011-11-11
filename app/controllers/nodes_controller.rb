@@ -1,6 +1,6 @@
 class NodesController < ApplicationController
-  #TODO: Restrict Access to admin
-  
+   filter_access_to :all
+   
   # GET /nodes
   # GET /nodes.xml
   def index

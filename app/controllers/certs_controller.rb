@@ -1,7 +1,6 @@
 class CertsController < ApplicationController
   before_filter :authenticate_mac, :only => :ap_cert
-  
-  #TODO: Revoke nur fuer admins.
+  filter_access_to :revoke
   
   # GET /certs
   # GET /certs.xml
