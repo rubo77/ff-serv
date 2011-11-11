@@ -23,7 +23,7 @@ class TincsController < ApplicationController
     wlan_mac = session[:wlan_mac]
     bat0_mac = session[:bat0_mac]
     @tinc.node = Node.find_by_wlan_mac(wlan_mac) || Node.new(:wlan_mac => wlan_mac)
-    
+    @tinc.rip = request.remote_ip
     respond_to do |format|
       if @tinc.save
         format.txt  {  }

@@ -8,6 +8,7 @@
     <th>Node</th>
 	<th>SHA-1</th>
 	<th>Eingereicht am</th>
+	<th>Eingereicht von</th>
     <th>Akzeptiert am</th>
     <th>Akzeptiert durch</th>
 <% permitted_to?  :approve, :tincs do%>
@@ -20,6 +21,7 @@
     <td class="monospaced"><%= tinc.node.wlan_mac %></td>
     <td class="monospaced"><%= tinc.checksum %></td>
     <td><%= tinc.created_at %></td>
+    <td><%= tinc.rip %></td>
 	<td><%= tinc.approved_at %></td>
     <td><%= tinc.approved_by %></td>
 	<% permitted_to?  :approve, :tincs do%>
