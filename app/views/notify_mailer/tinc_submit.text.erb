@@ -1,0 +1,10 @@
+Hallo,
+
+für FF-KBU wurde ein Neuer Tinc-Key einreicht:
+Node: <%= @tinc.node.wlan_mac %>
+Eingereicht am: <%= I18n.l @tinc.created_at, :format => :long %>
+IP-Adresse: <%= @tinc.rip %>
+
+Der Key kann unter <%= url_for(:controller => "tincs", :action => "index") %> akzeptiert werden
+
+Gruß, FF-KBU
