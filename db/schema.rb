@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111111173117) do
+ActiveRecord::Schema.define(:version => 20111111231232) do
 
   create_table "certs", :force => true do |t|
     t.string   "fingerprint"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(:version => 20111111173117) do
     t.text     "cert_data"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "rip"
   end
 
   create_table "users", :force => true do |t|
