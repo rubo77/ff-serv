@@ -17,4 +17,10 @@ class Tinc < ActiveRecord::Base
       NotifyMailer.tinc_submit(admin,self).deliver
     end
   end
+
+  def self.config
+    @@tinc_config ||= YAML::load_file("#{RAILS_ROOT}/config/tinc.yml")
+  end
+  
 end
+  

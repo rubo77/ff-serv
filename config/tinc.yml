@@ -1,0 +1,2 @@
+logfile: /var/log/syslog
+#logfile: syslog.1

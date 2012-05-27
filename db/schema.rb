@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111111231232) do
+ActiveRecord::Schema.define(:version => 20120527164049) do
 
   create_table "certs", :force => true do |t|
     t.string   "fingerprint"
@@ -28,6 +29,8 @@ ActiveRecord::Schema.define(:version => 20111111231232) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "wlan_mac"
+    t.integer  "status_id"
+    t.string   "current_ip"
   end
 
   create_table "prefix_delegations", :force => true do |t|
@@ -39,6 +42,12 @@ ActiveRecord::Schema.define(:version => 20111111231232) do
   end
 
   create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "statuses", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
