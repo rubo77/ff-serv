@@ -6,6 +6,7 @@ FfServ::Application.routes.draw do
   end
 
   resources :nodes
+  match 'nodes/:mac/status' => 'nodes#update_status', :via => :put
 
   devise_for :users
 

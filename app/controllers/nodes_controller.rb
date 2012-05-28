@@ -1,6 +1,6 @@
 class NodesController < ApplicationController
-   filter_access_to :all
-   
+  #filter_resource_access
+  before_filter :authenticate_localhost, :only => :update_status
   # GET /nodes
   # GET /nodes.xml
   def index
@@ -10,6 +10,19 @@ class NodesController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @nodes }
     end
+  end
+
+  def update_status
+    mac = params[:mac]
+    status_str = params[:status]
+    ip = params[:ip]
+    status = Status.find_by_name(status_str)
+    node = Node.find_by_wlan_mac(mac)
+    node.update_attributes({
+        :status_id => status.id,
+        :current_ip => ip
+    })
+    render :text => "Node #{mac} is #{status} - ip is #{ip} \n"
   end
 
   # # GET /nodes/1
@@ -23,17 +36,17 @@ class NodesController < ApplicationController
   #   end
   # end
   # 
-  # # GET /nodes/new
-  # # GET /nodes/new.xml
-  # def new
-  #   @node = Node.new
-  # 
-  #   respond_to do |format|
-  #     format.html # new.html.erb
-  #     format.xml  { render :xml => @node }
-  #   end
-  # end
-  # 
+  # GET /nodes/new
+   # GET /nodes/new.xml
+   def new
+     @node = Node.new
+   
+     respond_to do |format|
+       format.html # new.html.erb
+       format.xml  { render :xml => @node }
+     end
+   end
+   
   # # GET /nodes/1/edit
   # def edit
   #   @node = Node.find(params[:id])

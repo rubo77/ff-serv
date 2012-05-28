@@ -1,6 +1,6 @@
 class TincsController < ApplicationController
   before_filter :authenticate_mac, :only => :create
-  filter_access_to :approve
+  filter_resource_access  
   
   # GET /tincs
   # GET /tincs.xml

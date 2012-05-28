@@ -11,7 +11,7 @@
 	<div id="head"><%= yield :head %></div>
 	<div id="user-info">
 	      <% if current_user %>  
-	        Angemeldet als: <%= current_user.email %> |   
+	        Angemeldet als: <%= Authorization.current_user.email %> |   
 	        <%= link_to "Abmelden", destroy_user_session_path, :method => 'delete' %> |
 	 		<%= link_to "Profil", edit_user_registration_path%>
 	      <% else %>  

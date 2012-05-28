@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120527164049) do
+ActiveRecord::Schema.define(:version => 20120528102830) do
 
   create_table "certs", :force => true do |t|
     t.string   "fingerprint"

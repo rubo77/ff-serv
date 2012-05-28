@@ -1,5 +1,5 @@
 ### IMPORTANT: IT IS ASSUMED THAT 'node' IS PARSED AS A COMMAND LINE PARAMETER - CORRECTLY ESCAPED!
-### MAKE SURE, THAT VALID NODE MACS ARE ACCEPPTED, ONLY
+### MAKE SURE, THAT VALID NODE MACS ARE ACCEPPTED, ONLY -> see: ApplicationController::authenticate_mac
 
 task :node_up,[:argument,:node] => :environment do |task, args|
   status = Status.where(:name => "up").first
