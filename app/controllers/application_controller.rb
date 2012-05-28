@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
   ## Authenticate RPC-calls from localhost
   private
   def authenticate_localhost
-    logger.error "authenticate_localhost for #{request.remote_ip}"
     if (request.local?)
+        logger.error "authenticate_localhost for #{request.remote_ip}"
        udpate_current_user(request.remote_ip, Role.localhost.id)
        return true
     end
