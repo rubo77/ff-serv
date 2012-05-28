@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   
   ## Copy device user (current_user) to Authorization.current_user for model based authorisation.
   def copy_current_user
-    Authorization.current_user = current_user if defined? authenticate
+    Authorization.current_user = current_user 
   end
   
 end

@@ -5,7 +5,33 @@ class Node < ActiveRecord::Base
   has_many :tincs
   belongs_to :status
     
-  #Propably not necessary, since Each node submit its tinc-cert at first ...  
+  ## All nodes, where: VPN-Status is up, or tinc is trying to connect  
+  def self.registerable(remote_addr)
+    running_nodes = Node.where(:status_id => Status.up, :user_id => nil, :current_ip => remote_addr) || []
+    connecting_nodes = Node.unregistred.map {|n| n.current_ip == remote_addr} || []
+    return running_nodes + connecting_nodes
+  end
+  
+  def self.all_unregistered
+    running_nodes = Node.where(:status_id => Status.up, :user_id => nil) || []
+    connecting_nodes = Node.unregistred(true) || []
+    return running_nodes + connecting_nodes 
+  end
+    
+
+
+  def current_status
+    self.status || Status.find_by_name("down")
+  end
+  
+  def current_ip
+    permitted_to! :show_ip
+    ip = read_attribute :current_ip
+    logger.info "IP is #{ip}"
+    return ip
+  end
+  
+  private
   def self.unregistred(historic = false)
     nodes = {}
     t45_secs_ago = Time.now - 60
@@ -28,18 +54,6 @@ class Node < ActiveRecord::Base
         end
       end
     end
-    return nodes.values
+    return nodes.values || []
   end
-
-  def current_status
-    self.status || Status.find_by_name("down")
-  end
-  
-  def current_ip
-    permitted_to! :show_ip
-    ip = read_attribute :current_ip
-    logger.info "IP is #{ip}"
-    return ip
-  end
-  
 end

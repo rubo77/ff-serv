@@ -22,4 +22,47 @@
 <% end %>
 </table>
 
+<h2> Registrierbare Nodes </h2>
+<table>
+  <tr>
+    <th>MAC</th>
+    <th>VPN-Status</th>
+	<th>IP (extern)</th>
+	<th># Tincs</th>
+    <th>Letzter Tinc akzeptiert</th>
+  </tr>
+
+<% @registerable_nodes.each do |node| %>
+  <tr class="<%= cycle('odd','even') %>">
+    <td class="monospaced"><%= node.wlan_mac %></td>
+    <td><%= node.current_status %></td>
+   	<td class="monospaced"><%= node.current_ip if node.permitted_to? :show_ip%></td>
+    <td><%= node.tincs.size %></td>
+    <td><%= node.tincs.last.approved_at if node.tincs.last %></td>
+  </tr>
+<% end %>
+</table>
+
+<% permitted_to? :all_unregistered, :nodes do%>
+<h2>Nicht-registrierte Nodes</h2>
+<table>
+  <tr>
+    <th>MAC</th>
+    <th>VPN-Status</th>
+	<th>IP (extern)</th>
+	<th># Tincs</th>
+    <th>Letzter Tinc akzeptiert</th>
+  </tr>
+
+<% @unregistered.each do |node| %>
+  <tr class="<%= cycle('odd','even') %>">
+    <td class="monospaced"><%= node.wlan_mac %></td>
+    <td><%= node.current_status %></td>
+   	<td class="monospaced"><%= node.current_ip if node.permitted_to? :show_ip%></td>
+    <td><%= node.tincs.size %></td>
+    <td><%= node.tincs.last.approved_at if node.tincs.last %></td>
+  </tr>
+<% end %>
+</table>
+<% end %>
 <br />

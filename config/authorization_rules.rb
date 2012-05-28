@@ -2,7 +2,7 @@ authorization do
   role :admin do
     has_permission_on :users, :to => [:manege,:index]
     has_permission_on :tincs, :to => [:approve,:manege,:index]
-    has_permission_on :nodes, :to => [:show_ip,:manage,:index,:read]
+    has_permission_on :nodes, :to => [:all_unregistered,:show_ip,:manage,:index,:read]
   end
   
   # Logged in user
