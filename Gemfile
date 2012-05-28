@@ -5,6 +5,8 @@ gem 'rails', '3.0.10'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
+gem 'mysql2', '~> 0.2.9'
+
 gem 'omniauth'
 gem "oa-oauth", :require => "omniauth/oauth"
 gem "declarative_authorization", "~> 0.5.3"
