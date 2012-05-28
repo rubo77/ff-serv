@@ -1,2 +1,2 @@
-logfile: /var/log/syslog
+logfile: /usr/bin/syslog_suid
 #logfile: syslog.1

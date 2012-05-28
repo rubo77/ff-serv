@@ -37,7 +37,7 @@ class Node < ActiveRecord::Base
     t45_secs_ago = Time.now - 60
     logfile = Tinc.config['logfile']
     # May 26 22:40:03 felix tinc.intracity[28545]: Error while processing ID from b0487a96f582 (84.63.38.123 port 42756)
-    IO.popen("grep 'Error while processing ID from' #{logfile}") do |pipe|
+    IO.popen("#{logfile}") do |pipe|
       pipe.each_line do |line|
         md = line.match '(.+) .+ tinc..+\[\d+\]: Error while processing ID from (.+) \((.+) port \d+\)'
         if(md)
