@@ -41,15 +41,17 @@ class Node < ActiveRecord::Base
       pipe.each_line do |line|
         md = line.match '(.+) .+ tinc..+\[\d+\]: Error while processing ID from (.+) \((.+) port \d+\)'
         if(md)
-          time_stmp = md[1]
+          time_stmp = md[1].split ' '
           node_mac = md[2]
           node_ip = md[3]
+          
   
-          time_stmp = DateTime.parse(md[1], "%c") # %c => May 26 22:40:03
+          time_stmp = Time.parse("#{time_stmp}") # => May 26 22:40:03
           # Since tinc tries to connect every 45secs, we will use data younger than 45secs only
-          ago = time_stmp.to_time - t45_secs_ago #If ago > 0 => Time > t45_secs_ago => Recent enough
+          ago = time_stmp - t45_secs_ago #If ago > 0 => Time > t45_secs_ago => Recent enough
           if(ago > 0 || historic) # If recent enough or historic nodes should be included ...
-            nodes[node_mac] = Node.new(:wlan_mac => node_mac, :bat0_mac => node_mac, :current_ip => node_ip, :updated_at => time_stmp)
+          
+            nodes[node_mac] = Node.new(:wlan_mac => node_mac, :bat0_mac => node_mac, :current_ip => node_ip, :updated_at => DateTime.parse(time_stmp.to_s))
           end
         end
       end
