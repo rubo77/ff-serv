@@ -34,7 +34,8 @@ class Node < ActiveRecord::Base
   private
   def self.unregistred(historic = false)
     nodes = {}
-    t45_secs_ago = Time.now - 60
+    t45_secs_ago = Time.now - 45
+    yet = Time.now
     logfile = Tinc.config['logfile']
     # May 26 22:40:03 felix tinc.intracity[28545]: Error while processing ID from b0487a96f582 (84.63.38.123 port 42756)
     IO.popen("#{logfile}") do |pipe|
@@ -45,12 +46,11 @@ class Node < ActiveRecord::Base
           node_mac = md[2]
           node_ip = md[3]
           md2 = time_stmp.match '(\w+) (\d\d) (\d\d):(\d\d):(\d\d)'
-          month = md2[1]; day = md2[2]; hour = md2[3]; minute = md2[4]; sec = md2[5]
-          time_stmp = Time.local(t45_secs_ago.year,month,day,hour,minute,sec)
+          yet.month = md2[1]; yet.day = md2[2]; yet.hour = md2[3]; yet.minute = md2[4]; yet.sec = md2[5]
           # Since tinc tries to connect every 45secs, we will use data younger than 45secs only
-          ago = time_stmp - t45_secs_ago #If ago > 0 => Time > t45_secs_ago => Recent enough
+          ago = yet - t45_secs_ago #If ago > 0 => Time > t45_secs_ago => Recent enough
           if(ago > 0 || historic) # If recent enough or historic nodes should be included ...
-	    nodes[node_mac] = Node.new(:wlan_mac => node_mac, :bat0_mac => node_mac, :current_ip => node_ip, :updated_at => DateTime.parse(time_stmp.to_s))
+            nodes[node_mac] = Node.new(:wlan_mac => node_mac, :bat0_mac => node_mac, :current_ip => node_ip, :updated_at => DateTime.parse(yet.to_s))
           end
         end
       end
