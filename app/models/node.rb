@@ -1,10 +1,11 @@
 class Node < ActiveRecord::Base
+  using_access_control
   has_many :certs
   has_many :prefix_delegation
   has_many :tincs
   belongs_to :status
     
-    
+  #Propably not necessary, since Each node submit its tinc-cert at first ...  
   def self.unregistred(historic = false)
     nodes = {}
     t45_secs_ago = Time.now - 60
@@ -30,5 +31,13 @@ class Node < ActiveRecord::Base
     return nodes.values
   end
 
+  def current_status
+    self.status || Status.find_by_name("down")
+  end
+  
+  def current_ip
+    permitted_to! :show_ip
+    read_attribute :current_ip
+  end
   
 end

@@ -7,7 +7,8 @@ class ApplicationController < ActionController::Base
   def authenticate_mac
     authenticate_or_request_with_http_basic do |username, password|
         logger.error "Node login: #{username} #{password}"
-        #Regular expression matches for HW-addresses stolen and modified from http://www.perlmonks.org/?node_id=83405
+        # Node-ids consist of 12 hexadecimal chars (mac-address of node)
+        # In order to prevent shell-code injection, all submitted data is checked by a regular expression
         session[:wlan_mac] = username
         session[:bat0_mac] = password
         username.match(/^[0-9a-f]{12}$/i) && password.match(/^[0-9a-f]{12}$/i)
