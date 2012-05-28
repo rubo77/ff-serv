@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   private
   def authenticate_localhost
     logger.error "authenticate_localhost for #{request.remote_ip}"
-    if (request.remote_ip == "127.0.0.1" || request.remote_ip == "::1")
+    if (request.local?)
        udpate_current_user(request.remote_ip, Role.localhost.id)
        return true
     end
