@@ -48,11 +48,7 @@ class Node < ActiveRecord::Base
           # Since tinc tries to connect every 45secs, we will use data younger than 45secs only
           ago = time_stmp - t45_secs_ago #If ago > 0 => Time > t45_secs_ago => Recent enough
           if(ago > 0 || historic) # If recent enough or historic nodes should be included ...
-<<<<<<< HEAD
-        
-=======
->>>>>>> 345122f28ab6321b371bcb4e226e298a2d573ed5
-            nodes[node_mac] = Node.new(:wlan_mac => node_mac, :bat0_mac => node_mac, :current_ip => node_ip, :updated_at => DateTime.parse(time_stmp.to_s))
+	    nodes[node_mac] = Node.new(:wlan_mac => node_mac, :bat0_mac => node_mac, :current_ip => node_ip, :updated_at => DateTime.parse(time_stmp.to_s))
           end
         end
       end
