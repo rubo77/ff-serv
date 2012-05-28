@@ -7,4 +7,7 @@ authorization do
   role :user do
     has_permission_on :nodes, :to => [:index]
   end
+  role :guest do
+    has_permission_on :nodes, :to => [:index]
+  end
 end
