@@ -7,8 +7,8 @@ class Node < ActiveRecord::Base
     
   ## All nodes, where: VPN-Status is up, or tinc is trying to connect  
   def self.registerable(remote_addr)
-    running_nodes = Node.where(:status_id => Status.up, :user_id => nil, :current_ip => remote_addr) || []
-    connecting_nodes = (Node.unregistred.collect {|n| n.current_ip == remote_addr}) || []
+    running_nodes = Node.where(:status_id => Status.up, :user_id => nil, :current_ip => remote_addr)
+    connecting_nodes = (Node.unregistred.keep_if {|n| n.current_ip == remote_addr}) || []
     return running_nodes + connecting_nodes
   end
   
