@@ -14,17 +14,17 @@ FfServ::Application.routes.draw do
   match '/logout', :to => "authentications#destroy"
   match '/login', :to => "authentications#new"
   
-  resources :certs do
-    member do
-      post 'revoke'
-    end
-    collection do
-      get 'ap_cert'
-      get 'ca_cert'
-      get 'dh1024'
-      get 'crl'
-    end
-  end
+  # resources :certs do
+  #   member do
+  #     post 'revoke'
+  #   end
+  #   collection do
+  #     get 'ap_cert'
+  #     get 'ca_cert'
+  #     get 'dh1024'
+  #     get 'crl'
+  #   end
+  # end
   resources :users
     
   # The priority is based upon order of creation:
@@ -76,7 +76,7 @@ FfServ::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => "certs#index"
+  root :to => "nodes#index"
 
   # See how all your routes lay out with "rake routes"
 

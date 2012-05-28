@@ -24,10 +24,12 @@
 	</div>
 	<div id="main-nav">
 		<% flash[:messages]%>
-		<%= link_to "Zertifikate", certs_path %> | 
 		<%= link_to "Tinc-Management", tincs_path %> | 
 		<% permitted_to? :index, :users do %>
 			<%= link_to "Benutzer", users_path %>
+		<% end %>
+		<% permitted_to? :index, :nodes do %>
+			<%= link_to "Nodes", nodes_path %>
 		<% end %>
 	</div>
 </div>

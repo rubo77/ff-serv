@@ -9,6 +9,6 @@ class User < ActiveRecord::Base
   belongs_to :role
   
   def role_symbols
-    (role.present?) ? [role.name.to_sym] : []
+    (role.present?) ? [role.name.to_sym] : [:user]
   end
 end
