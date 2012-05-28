@@ -46,11 +46,11 @@ class Node < ActiveRecord::Base
           node_mac = md[2]
           node_ip = md[3]
           md2 = time_stmp.match '(\w+) (\d\d) (\d\d):(\d\d):(\d\d)'
-          yet = yet.change(:month => md[1], 
-            :day => md2[2],
-            :hour => md2[3],
-            :minute => md2[4],
-            :second => md2[5] )
+          yet = yet.change(:month => md2[1], 
+            :day => md2[2].to_i,
+            :hour => md2[3].to_i,
+            :minute => md2[4].to_i,
+            :second => md2[5].to_i )
           # Since tinc tries to connect every 45secs, we will use data younger than 45secs only
           ago = yet - t45_secs_ago #If ago > 0 => Time > t45_secs_ago => Recent enough
           if(ago > 0 || historic) # If recent enough or historic nodes should be included ...
