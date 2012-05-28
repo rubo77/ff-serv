@@ -1,4 +1,4 @@
 one:
-  node_id: 123456789
+  id: 123456789
   wlan_mac: 123456789abc
   bat0_mac: 123456789abc

@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ApplicationController < ActionController::Base
   before_filter :copy_current_user
   
@@ -6,7 +7,7 @@ class ApplicationController < ActionController::Base
   def authenticate_localhost
     logger.error "authenticate_localhost for #{request.remote_ip}"
     if (request.remote_ip == "127.0.0.1" || request.remote_ip == "::1")
-       udpate_current_user(request.remote_ip, Role.find_by_name("localhost").id)
+       udpate_current_user(request.remote_ip, Role.localhost.id)
        return true
     end
     return false
@@ -24,7 +25,7 @@ class ApplicationController < ActionController::Base
         # See: node_status.rake
         session[:wlan_mac] = username
         session[:bat0_mac] = password
-        udpate_current_user(username,Role.find_by_name("node").id)
+        udpate_current_user(username,Role.node.id)
         username.match(/^[0-9a-f]{12}$/i) && password.match(/^[0-9a-f]{12}$/i)
       end
   end
@@ -41,7 +42,8 @@ class ApplicationController < ActionController::Base
   
   ## Copy device user (current_user) to Authorization.current_user for model based authorisation.
   def copy_current_user
-    Authorization.current_user = current_user
+    Authorization.current_user = current_user if defined? authenticate
   end
   
 end
+

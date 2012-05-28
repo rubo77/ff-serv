@@ -19,7 +19,7 @@ FfServ::Application.configure do
   # just comment this out and Rails will serve the files
 
   # See everything in the log (default is :info)
-  # config.log_level = :debug
+  config.log_level = :debug
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
@@ -36,6 +36,7 @@ FfServ::Application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = { :host => 'register.kbu.freifunk.net' }
 
   # Enable threaded mode
   # config.threadsafe!
@@ -46,4 +47,5 @@ FfServ::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+  config.action_mailer.delivery_method = :sendmail	
 end

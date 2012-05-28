@@ -16,7 +16,7 @@ class Node < ActiveRecord::Base
         md = line.match '(.+) .+ tinc..+\[\d+\]: Error while processing ID from (.+) \((.+) port \d+\)'
         if(md)
           time_stmp = md[1]
-          node_mac = md[2]t
+          node_mac = md[2]
           node_ip = md[3]
   
           time_stmp = DateTime.parse(md[1], "%c") # %c => May 26 22:40:03
