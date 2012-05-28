@@ -35,7 +35,6 @@ class Node < ActiveRecord::Base
   def self.unregistred(historic = false)
     nodes = {}
     t45_secs_ago = Time.now - 45
-    yet = Time.now
     logfile = Tinc.config['logfile']
     # May 26 22:40:03 felix tinc.intracity[28545]: Error while processing ID from b0487a96f582 (84.63.38.123 port 42756)
     IO.popen("#{logfile}") do |pipe|
@@ -46,11 +45,7 @@ class Node < ActiveRecord::Base
           node_mac = md[2]
           node_ip = md[3]
           md2 = time_stmp.match '(\w+) (\d\d) (\d\d):(\d\d):(\d\d)'
-          yet = yet.change(:month => md2[1], 
-            :day => md2[2].to_i,
-            :hour => md2[3].to_i,
-            :minute => md2[4].to_i,
-            :second => md2[5].to_i )
+          yet = Time.local(t45_secs_ago.year, md2[1], md2[2],md2[3],md2[4],md2[5])
           # Since tinc tries to connect every 45secs, we will use data younger than 45secs only
           ago = yet - t45_secs_ago #If ago > 0 => Time > t45_secs_ago => Recent enough
           logger.info "ago (#{ago}) = #{yet} - #{t45_secs_ago}"
