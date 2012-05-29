@@ -1,0 +1,54 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+	  initmap()
+	  initmapAutoComplete("#node_registration_standort")
+	});
+</script>
+
+<div class="left">
+<%= form_for(@node_registration) do |f| %>
+  <% if @node_registration.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@node_registration.errors.count, "error") %> prohibited this node_registration from being saved:</h2>
+
+      <ul>
+      <% @node_registration.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<fieldset>
+	<legend>Node-Daten</legend>
+  <div class="field">
+    <%= f.label 'Node'%>-Auswahl<i> (MAC-Address - siehe Aufkleber Rückseite)</i><br />
+ 	<%= f.select :node_id, @registerable_nodes || [],:readonly => @registerable_nodes.nil?%>
+  </div>
+   <div class="field">
+    <%= f.label :name, 'Name (frei wählbar):' %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :standort,'Standort:' %><br />
+	<i>(z.B. Domkloster 4, 50667 Köln)</i><br />
+    <%= f.text_field :standort %> &nbsp; <span id="ajax-loader"style="display:none"><%=image_tag 'ajax-loader.gif'%></span> <br /> 
+	<br/>
+	<%= f.label :latitude, 'Lat:'%> 
+	<%= f.text_field :latitude,{:disabled=> true, :size => 8 } %> - 
+	<%= f.label :latitude, 'Lng:'%> 
+	<%= f.text_field :longitude, {:disabled=> true, :size => 8 }%>
+  </div>
+  <div class="field">
+    <%= f.label :contact_mail, 'Öffentliche E-Mail-Adresse:' %><br />
+    <%= f.text_field :contact_mail %>
+  </div>
+  <div class="field">
+    <%= f.label :notice, 'Hinweise:' %><br />
+    <%= f.text_area :notice, :rows => "6" %>
+  </div>
+  <div class="actions">
+  </div>
+<% end %>
+</fieldset>
+</div>
+<div id="map" class="right"></div>

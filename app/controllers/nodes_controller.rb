@@ -7,6 +7,11 @@ class NodesController < ApplicationController
     @nodes = Node.all
     @registerable_nodes = Node.registerable(request.remote_ip)
     @unregistered = Node.all_unregistered if permitted_to? :all_unregistered, :nodes
+    
+    if permitted_to? :register_all, :nodes
+      @registerable_nodes = @unregistered
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @nodes }

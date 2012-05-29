@@ -4,6 +4,10 @@
 
 <h2>Hallo Freifunker,</h2>
 
+<%= flash[:notice]%>
+<%= flash[:message]%>
+
+
 bitte geb' Deine E-Mail Adresse und Dein Kennwort ein, um Dich am System anzumelden!
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>

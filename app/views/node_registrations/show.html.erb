@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @node_registration.name %>
+</p>
+
+<p>
+  <b>Node:</b>
+  <%= @node_registration.node_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @node_registration.user_id %>
+</p>
+
+<p>
+  <b>Standort:</b>
+  <%= @node_registration.standort %>
+</p>
+
+<p>
+  <b>Contact mail:</b>
+  <%= @node_registration.contact_mail %>
+</p>
+
+<p>
+  <b>Notice:</b>
+  <%= @node_registration.notice %>
+</p>
+
+
+<%= link_to 'Edit', edit_node_registration_path(@node_registration) %> |
+<%= link_to 'Back', node_registrations_path %>

@@ -56,7 +56,9 @@
 
 <% @unregistered.each do |node| %>
   <tr class="<%= cycle('odd','even') %>">
-    <td class="monospaced"><%= node.wlan_mac %></td>
+    <td class="monospaced">
+		<%= link_to node.wlan_mac, new_node_registration_path(:node => node) %>
+	</td>
     <td><%= node.current_status %></td>
    	<td class="monospaced"><%= node.current_ip if node.permitted_to? :show_ip%></td>
     <td><%= node.tincs.size %></td>

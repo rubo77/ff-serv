@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120528102830) do
+ActiveRecord::Schema.define(:version => 20120528230133) do
 
   create_table "certs", :force => true do |t|
     t.string   "fingerprint"
@@ -20,6 +20,19 @@ ActiveRecord::Schema.define(:version => 20120528102830) do
     t.binary   "cert_data"
     t.integer  "node_id"
     t.boolean  "revoked"
+  end
+
+  create_table "node_registrations", :force => true do |t|
+    t.string   "name"
+    t.integer  "node_id"
+    t.integer  "user_id"
+    t.string   "standort"
+    t.string   "contact_mail"
+    t.text     "notice"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "nodes", :force => true do |t|

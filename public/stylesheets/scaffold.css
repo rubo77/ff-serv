@@ -93,6 +93,7 @@ div.field, div.actions {
 	margin: 0px auto;
 	background-color: #FFF;
 	padding: 10px;
+	height: 100%;
 }
 table{
 	padding: 5px;
@@ -158,3 +159,11 @@ a:hover{
 .edittable td{
 	padding: 5px;
 }
+.left{
+	padding-right: 40px;
+	float:left;
+}
+#map{
+	height: 500px;
+}
+

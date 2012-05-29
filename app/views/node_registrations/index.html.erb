@@ -1,0 +1,33 @@
+<h1>Listing node_registrations</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Node</th>
+    <th>User</th>
+    <th>Standort</th>
+    <th>Contact mail</th>
+    <th>Notice</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @node_registrations.each do |node_registration| %>
+  <tr>
+    <td><%= node_registration.name %></td>
+    <td><%= node_registration.node_id %></td>
+    <td><%= node_registration.user_id %></td>
+    <td><%= node_registration.standort %></td>
+    <td><%= node_registration.contact_mail %></td>
+    <td><%= node_registration.notice %></td>
+    <td><%= link_to 'Show', node_registration %></td>
+    <td><%= link_to 'Edit', edit_node_registration_path(node_registration) %></td>
+    <td><%= link_to 'Destroy', node_registration, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Node registration', new_node_registration_path %>

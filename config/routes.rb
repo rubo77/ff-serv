@@ -1,13 +1,15 @@
 FfServ::Application.routes.draw do
+  match ':ctrl/lookup.json' => 'geocoders#lookup', :via => :get
+  resources :node_registrations
+
   resources :tincs do
     member do
       post 'approve'
     end
   end
 
-  resources :nodes
+  resources :nodes 
   match 'nodes/:mac/status' => 'nodes#update_status', :via => :put
-
   devise_for :users
 
   resources :authentications
