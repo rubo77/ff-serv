@@ -6,6 +6,7 @@ gem 'rails', '3.0.10'
 
 gem 'sqlite3'
 gem 'mysql2', '~> 0.2.9'
+gem 'jquery-rails', '>= 1.0.12'
 
 gem 'omniauth'
 gem "oa-oauth", :require => "omniauth/oauth"
@@ -37,3 +38,4 @@ gem "declarative_authorization", "~> 0.5.3"
 gem "nifty-generators", :group => :development
 #gem "mocha", :group => :test
 gem "devise"
+gem 'geocoder'
