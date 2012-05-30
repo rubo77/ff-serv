@@ -1,8 +1,9 @@
 authorization do
   role :admin do
-    has_permission_on :users, :to => [:manege,:index]
-    has_permission_on :tincs, :to => [:approve,:manege,:index]
-    has_permission_on :nodes, :to => [:register_all,:all_unregistered,:show_ip,:manage,:index,:read]
+    has_permission_on :users, :to => [:all_res]
+    has_permission_on :node_registrations, :to => [:all_res, :write_node_id]
+    has_permission_on :tincs, :to => [:approve,:manage,:index]
+    has_permission_on :nodes, :to => [:register_all,:all_unregistered,:show_ip,:all_res]
   end
   
   # Logged in user
@@ -34,4 +35,9 @@ authorization do
   role :localhost do
     has_permission_on :nodes, :to => [:show_ip,:update_status,:update,:index]
   end
+end
+privileges do
+   privilege :all_res do
+     includes :create, :read, :update, :delete, :index, :edit
+   end
 end
