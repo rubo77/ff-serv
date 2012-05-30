@@ -2,7 +2,7 @@ var map;
 var ajaxRequest;
 var plotlist;
 var plotlayers=[];
-var marker;
+
 function initmap(elem,latitude, longitude,zoom) {
 	// set up the map
 	map = new L.Map(elem,{maxZoom: 18});
@@ -32,6 +32,7 @@ function initmapAutoComplete(field){
 	});
 }
 function focusPointer(lat,lng,showPopup,zoom){
+	var marker;
 	var markerLocation = new L.LatLng(lat,lng);
 	if(marker == null){
 		marker = new L.Marker(markerLocation,{draggable: true});
