@@ -3,9 +3,9 @@ var ajaxRequest;
 var plotlist;
 var plotlayers=[];
 var marker;
-function initmap() {
+function initmap(elem,latitude, longitude,zoom) {
 	// set up the map
-	map = new L.Map('map',{maxZoom: 18});
+	map = new L.Map(elem,{maxZoom: 18});
 
 	// create the tile layer with correct attribution
 	var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -15,19 +15,23 @@ function initmap() {
 	// start the map in South-East England
 	map.setView(new L.LatLng(51.3, 0.7),4);
 	map.addLayer(osm);
+	
+	if(latitude != null && longitude != null){
+		focusPointer(latitude,longitude,false,zoom);
+	}
 }
 
 function initmapAutoComplete(field){
 	$( field ).autocomplete({
 				minLength: 5,
-				delay: 500,
+				delay: 750,
 				source: 'lookup.json',
-				select: function(event, ui) { focusPointer(ui.item.data.lat,ui.item.data.long) },
-				search: function(event, ui) { showAjaxSpinner(true) },
-				open: function(event, ui) { showAjaxSpinner(false) }
+				select: function(event, ui) { focusPointer(ui.item.data.lat,ui.item.data.long,true,16) },
+				search: function(event, ui) { showAjaxSpinner(true);},
+				open: function(event, ui) { showAjaxSpinner(false);}
 	});
 }
-function focusPointer(lat,lng){
+function focusPointer(lat,lng,showPopup,zoom){
 	var markerLocation = new L.LatLng(lat,lng);
 	if(marker == null){
 		marker = new L.Marker(markerLocation,{draggable: true});
@@ -40,9 +44,11 @@ function focusPointer(lat,lng){
 	}else{
 		marker.setLatLng(markerLocation);
 	}
-	map.setView(markerLocation,16);
+	map.setView(markerLocation,zoom);
 	map.addLayer(marker);
-	marker.bindPopup("<b> Bitte bewege mich!</b><br />Ziehe den Marker zum Aufstellort.").openPopup();
+	if(showPopup){
+		marker.bindPopup("<b> Bitte bewege mich!</b><br />Ziehe den Marker zum Aufstellort.").openPopup();
+	}
 	updateLatitudeLongitude(marker.getLatLng())	
 
 }
