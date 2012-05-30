@@ -4,6 +4,7 @@ class Node < ActiveRecord::Base
   has_many :prefix_delegation
   has_many :tincs
   belongs_to :status
+  has_many :node_registrations
     
   ## All nodes, where: VPN-Status is up, or tinc is trying to connect  
   def self.registerable(remote_addr)
@@ -17,12 +18,12 @@ class Node < ActiveRecord::Base
     end
   end
   
-  def self.all_unregistered
-    running_nodes = Node.where(:user_id => nil) || []
-  end
-
   def current_status
     self.status || Status.find_by_name("down")
+  end
+  
+  def self.all_unregistered
+    Node.all(:include => :node_registrations).keep_if {|n| n.node_registrations.size == 0}
   end
   
   def current_ip

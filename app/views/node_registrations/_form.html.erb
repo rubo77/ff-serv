@@ -1,12 +1,14 @@
 <script type="text/javascript">
+	var lat = <%= @node_registration.latitude || 'null' %>
+	var lng = <%= @node_registration.longitude || 'null' %>
 	$(document).ready(function() {
-	  initmap()
-	  initmapAutoComplete("#node_registration_standort")
+ 		initmap($('#map')[0],lat,lng,18)
+	  	initmapAutoComplete("#node_registration_standort")
 	});
 </script>
 
 <div class="left">
-<%= form_for(@node_registration) do |f| %>
+<%= form_for(@node_registration, :builder => NodeRegistrationsHelper::RegFormBuilder) do |f| %>
   <% if @node_registration.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@node_registration.errors.count, "error") %> prohibited this node_registration from being saved:</h2>
@@ -21,33 +23,46 @@
 <fieldset>
 	<legend>Node-Daten</legend>
   <div class="field">
-    <%= f.label 'Node'%>-Auswahl<i> (MAC-Address - siehe Aufkleber Rückseite)</i><br />
- 	<%= f.select :node_id, @registerable_nodes || [],:readonly => @registerable_nodes.nil?%>
+    <%= f.label 'Node'%><i> (MAC-Address - siehe Aufkleber Rückseite)</i><br />
+ 	<%= f.node_field  (@registerable_nodes || []).map {|n| [n.wlan_mac, n.id]} || []%>
   </div>
    <div class="field">
-    <%= f.label :name, 'Name (frei wählbar):' %><br />
-    <%= f.text_field :name %>
+    <%= f.label :node_name, 'Name des Nodes (frei wählbar):' %><br />
+    <%= f.text_field :node_name%>
+  </div>
+   <div class="field left">
+    <%= f.label :user_id, 'Registriert durch:' %><br />
+	<span>	 <%= f.object.user %> </span>
+  </div>
+   <div style="float:none">
+	<%= image_tag f.object.user.image_url + "?s=60"%>
+	</div>
+
+   <div class="field">
+    <%= f.label :operator_name, 'Name des Betreibers / Aufstellers:' %><br />
+    <%= f.text_field :operator_name %>
+  </div>
+  <div class="field">
+    <%= f.label :contact_mail, 'Öffentliche E-Mail-Adresse für Anfragen:' %><br />
+    <%= f.text_field :contact_mail %>
   </div>
   <div class="field">
     <%= f.label :standort,'Standort:' %><br />
 	<i>(z.B. Domkloster 4, 50667 Köln)</i><br />
-    <%= f.text_field :standort %> &nbsp; <span id="ajax-loader"style="display:none"><%=image_tag 'ajax-loader.gif'%></span> <br /> 
+    <%= f.text_field :standort %> &nbsp; 
+		<span id="ajax-loader"style="display:none"><%=image_tag 'ajax-loader.gif'%></span> <br /> 
 	<br/>
 	<%= f.label :latitude, 'Lat:'%> 
-	<%= f.text_field :latitude,{:disabled=> true, :size => 8 } %> - 
+	<%= f.text_field :latitude, {:read_only=> true, :size => 8, :class => "latlng"} %> - 
 	<%= f.label :latitude, 'Lng:'%> 
-	<%= f.text_field :longitude, {:disabled=> true, :size => 8 }%>
-  </div>
-  <div class="field">
-    <%= f.label :contact_mail, 'Öffentliche E-Mail-Adresse:' %><br />
-    <%= f.text_field :contact_mail %>
+	<%= f.text_field :longitude, {:read_only=> true, :size => 8,:class => "latlng"}%>
   </div>
   <div class="field">
     <%= f.label :notice, 'Hinweise:' %><br />
-    <%= f.text_area :notice, :rows => "6" %>
+    <%= f.text_area :notice, {:rows => "6"} %>
   </div>
   <div class="actions">
-  </div>
+ 	<%= f.submit 'Speichern' %>	
 <% end %>
 </fieldset>
 </div>

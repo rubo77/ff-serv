@@ -1,0 +1,31 @@
+<tr>
+	<td class="vpn_status<%= nodes_reg.node.status %>">
+		<span class="node_reg_key">Node-Name:</span>
+		<span class="node_reg_value"><%= nodes_reg.node_name %></span> - 
+		<span class="node_reg_key">MAC:</span>
+		<span class="node_reg_value monospaced"><%= nodes_reg.node.wlan_mac %></span> <br />
+		<span class="node_reg_key">VPN-Status:</span>
+		<span class="node_reg_value monospaced vpn_status<%= nodes_reg.node.status %>"><%= nodes_reg.node.status %></span> <br />
+		<span class="node_reg_key">Kontakt:</span>
+		<span class="node_reg_value">
+			<%= nodes_reg.operator_name %> 
+			(<%= link_to mail_to(nodes_reg.contact_mail,nodes_reg.contact_mail, :subject => "Freifunk-KBU-Node #{nodes_reg.node.wlan_mac}")%>)
+		</span> <br />
+
+		<span class="node_reg_key">Standort:</span>
+		<span class="node_reg_value"> 
+			<%= nodes_reg.standort[0,40] %><%= '...' if nodes_reg.standort.size > 40%>
+		</span></br>
+<% if nodes_reg.notice.present?%>
+		<span class="node_reg_key">Hinweis:</span>
+		<span class="node_reg_value">
+			<pre><%= nodes_reg.notice%></pre>
+<% end %>
+		</span> <br />
+		<%= link_to 'Details', nodes_reg %>
+	</td>
+	<td>
+		<div class="node_map" lat="<%= nodes_reg.latitude %>" lng="<%= nodes_reg.longitude %>" style="height: 140px; width: 400px;">	
+	</td>
+
+</tr>

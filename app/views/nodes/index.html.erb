@@ -1,6 +1,26 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+ 		$('.node_map').each(function(key,value){
+			elem = $(value)
+			initmap(value,elem.attr("lat"),elem.attr("lng"),14);
+		})
+	});
+
+</script>
 <% content_for :head do %>
   <h1>Nodes im Freifunk-KBU-Netz</h1>
 <% end %>
+
+<h2> Registrierte Nodes</h2>
+<table>
+	<th>Node</th>
+	<th>Position</th>
+<% @node_registrations.each do |node_reg| %>
+	<%= render :partial => "nodes_reg", :object => node_reg %>
+
+<% end %>
+</table>
+
 <h2>Bekannte Nodes</h2>
 <table>
   <tr>

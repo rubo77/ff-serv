@@ -16,7 +16,7 @@ class NodeRegistrationsController < ApplicationController
     @node_registration = NodeRegistration.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render :action => :edit } # show.html.erb
       format.xml  { render :xml => @node_registration }
     end
   end
@@ -25,6 +25,7 @@ class NodeRegistrationsController < ApplicationController
   # GET /node_registrations/new.xml
   def new
     @node_registration = NodeRegistration.new
+    @node_registration.user = current_user
     @node_registration.node_id = params[:node]
     @registerable_nodes = Node.registerable(request.remote_ip)
     respond_to do |format|
@@ -42,10 +43,10 @@ class NodeRegistrationsController < ApplicationController
   # POST /node_registrations.xml
   def create
     @node_registration = NodeRegistration.new(params[:node_registration])
-
+    
     respond_to do |format|
       if @node_registration.save
-        format.html { redirect_to(@node_registration, :notice => 'Node registration was successfully created.') }
+        format.html { redirect_to(nodes_path, :notice => 'Node erfolgreich registiert') }
         format.xml  { render :xml => @node_registration, :status => :created, :location => @node_registration }
       else
         format.html { render :action => "new" }
@@ -61,7 +62,7 @@ class NodeRegistrationsController < ApplicationController
 
     respond_to do |format|
       if @node_registration.update_attributes(params[:node_registration])
-        format.html { redirect_to(@node_registration, :notice => 'Node registration was successfully updated.') }
+        format.html { redirect_to(nodes_path, :notice => 'Registrierung erfolgreich angepasst') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

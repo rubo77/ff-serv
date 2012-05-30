@@ -27,13 +27,15 @@
 		<%= image_tag("banner_logo.png")%>
 	</div>
 	<div id="main-nav">
-		<% flash[:messages]%>
 		<%= link_to "Tinc-Management", tincs_path %> | 
 		<% permitted_to? :index, :users do %>
 			<%= link_to "Benutzer", users_path %> |
 		<% end %>
 			<%= link_to "Nodes", nodes_path %>
+			<p id="error"> <%= flash[:error] %></p> 
+			<p id="notice"><%= flash[:notice] %> </p>
 	</div>
+		
 </div>
 <div id="body" >
 <%= yield %>

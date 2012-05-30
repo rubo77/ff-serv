@@ -1,6 +1,13 @@
-<h1>Editing node_registration</h1>
+<% content_for :head do %>
+  <h1>Node-Register</h1>
+<% end %>
+
+<h2> Freifunk-KBU-Node-Registrierung bearbeiten / ansehen </h2>
+
+Hier kannst Du Deine Registrierung bearbeiten oder fremde Einträge ansehen. <br />
+<i>Bitte beachte, dass der Node im Nachhinein nicht geändert werden kann, da er fest mit der Registrierung verbunden ist. </i>
+<p />
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @node_registration %> |
-<%= link_to 'Back', node_registrations_path %>
+
