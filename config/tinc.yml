@@ -1,2 +1,2 @@
-#logfile: /usr/bin/syslog_suid
-logfile: tail syslog.1
+logfile: /usr/bin/syslog_suid
+#logfile: tail syslog.1

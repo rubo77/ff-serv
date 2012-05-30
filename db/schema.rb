@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120528230133) do
+ActiveRecord::Schema.define(:version => 20120529224344) do
 
   create_table "certs", :force => true do |t|
     t.string   "fingerprint"
@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(:version => 20120528230133) do
   end
 
   create_table "node_registrations", :force => true do |t|
-    t.string   "name"
     t.integer  "node_id"
     t.integer  "user_id"
     t.string   "standort"
@@ -33,6 +32,8 @@ ActiveRecord::Schema.define(:version => 20120528230133) do
     t.datetime "updated_at"
     t.float    "latitude"
     t.float    "longitude"
+    t.string   "node_name"
+    t.string   "operator_name"
   end
 
   create_table "nodes", :force => true do |t|
