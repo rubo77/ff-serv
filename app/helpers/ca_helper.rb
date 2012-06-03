@@ -146,7 +146,7 @@ module CaHelper
   
   private
   def self.ca_config
-    @@ca_config ||= YAML::load_file("#{RAILS_ROOT}/config/ssl.yml")[RAILS_ENV]
+    @@ca_config ||= YAML::load_file("#{Rails.root}/config/ssl.yml")[RAILS_ENV]
   end
   def self.easy_rsa_ca_key(*args,&block)
     @@key ||= File.read(ca_config['key_path']+"/ca.key")

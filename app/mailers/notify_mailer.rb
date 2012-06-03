@@ -1,6 +1,6 @@
 class NotifyMailer < ActionMailer::Base
   def self.mail_config
-    @@mail_config ||= YAML::load_file("#{RAILS_ROOT}/config/mail.yml")
+    @@mail_config ||= YAML::load_file("#{Rails.root}/config/mail.yml")
   end  
   default :from => mail_config["from"]
   

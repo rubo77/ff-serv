@@ -7,7 +7,7 @@ class PrefixDelegation < ActiveRecord::Base
   end
   
   def self.prefix_config
-    @@prefix_config ||= YAML::load_file("#{RAILS_ROOT}/config/prefixes.yml")[RAILS_ENV]
+    @@prefix_config ||= YAML::load_file("#{Rails.root}/config/prefixes.yml")[RAILS_ENV]
   end
 
 end

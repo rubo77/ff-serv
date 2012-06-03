@@ -19,7 +19,7 @@ class Tinc < ActiveRecord::Base
   end
 
   def self.config
-    @@tinc_config ||= YAML::load_file("#{RAILS_ROOT}/config/tinc.yml")
+    @@tinc_config ||= YAML::load_file("#{Rails.root}/config/tinc.yml")
   end
   
 end
