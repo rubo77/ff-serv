@@ -4,7 +4,7 @@ class NodeRegistration < ActiveRecord::Base
   belongs_to :node
   belongs_to :user
   before_create :set_user
-
+  attr_accessible :node_name, :node_id, :operator_name, :contact_mail, :standort, :latitude, :longitude, :notice
 
   # Change possible: New one and create allowd
   # Or: Old one and update allowed

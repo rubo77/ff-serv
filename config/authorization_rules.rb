@@ -9,6 +9,19 @@ authorization do
   # Logged in user
   role :user do
     has_permission_on :nodes, :to => [:index]
+    has_permission_on :tincs, :to => [:index]
+    
+    # Users may edit their registrations
+    has_permission_on :node_registrations do
+      to :all_res
+      if_attribute :user_id => is {user.id}
+    end
+    has_permission_on :node_registrations do
+      to :create
+      if_attribute :node_id => is_in { Node.registerable(user.current_ip).map{|n| n.id} }
+    end
+    
+    
   end
   
   role :guest do

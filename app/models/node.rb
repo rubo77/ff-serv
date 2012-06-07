@@ -8,14 +8,9 @@ class Node < ActiveRecord::Base
     
   ## All nodes, where: VPN-Status is up, or tinc is trying to connect  
   def self.registerable(remote_addr)
-    n = Node.new # Use for quering ACL-Data
-    if(n.permitted_to? :register_all)
-      Node.all_unregistered
-    else
-      running_nodes = Node.where(:status_id => Status.up, :user_id => nil, :current_ip => remote_addr)
-      connecting_nodes = (Node.unregistred.keep_if {|n| n.current_ip == remote_addr}) || []
-      running_nodes + connecting_nodes
-    end
+    running_nodes = Node.where(:status_id => Status.up, :user_id => nil, :current_ip => remote_addr)
+    connecting_nodes = (Node.unregistred.keep_if {|n| n.current_ip == remote_addr}) || []
+    running_nodes + connecting_nodes
   end
   
   def current_status

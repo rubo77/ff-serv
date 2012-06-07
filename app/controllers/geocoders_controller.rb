@@ -5,7 +5,7 @@ class GeocodersController < ApplicationController
       name = result.data['display_name']
       lat = result.data['lat']
       long = result.data['lon']
-      {:label => name, :value => name, :data => {:lat => lat, :long => long}}
+      {:label => name, :value => term, :data => {:lat => lat, :long => long}}
     end
     # Falls kein Ergebnis gefunden - Zeiger zum Kölner Dom, :label Termin + Hinweis, :value = Termin
     # LNG => 6.957437644009218

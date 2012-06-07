@@ -1,10 +1,10 @@
 <script type="text/javascript">
 	var lat = <%= @node_registration.latitude || 'null' %>
 	var lng = <%= @node_registration.longitude || 'null' %>
-	$(document).ready(function() {
- 		initmap($('#map')[0],lat,lng,18)
-	  	initmapAutoComplete("#node_registration_standort")
-	});
+	
+	$(function(){
+		initMapInNodeRegistration({lat: lat,lng: lng,markerDraggable: true});
+	})
 </script>
 
 <div class="left">
