@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   
   ## Copy device user (current_user) to Authorization.current_user for model based authorisation.
   def copy_current_user
-    current_user.current_ip = request.remote_ip
+    current_user.current_ip = request.remote_ip if current_user
     Authorization.current_user = current_user 
   end
   
