@@ -9,7 +9,7 @@
 		<span class="node_reg_key">Kontakt:</span>
 		<span class="node_reg_value">
 			<%= nodes_reg.operator_name %> 
-			(<%= link_to mail_to(nodes_reg.contact_mail,nodes_reg.contact_mail, :subject => "Freifunk-KBU-Node #{nodes_reg.node.wlan_mac}")%>)
+			(<%= nodes_reg.contact_mail.sub("@","{at}") %>)
 		</span> <br />
 
 		<span class="node_reg_key">Standort:</span>
